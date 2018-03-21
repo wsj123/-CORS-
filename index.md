@@ -1,37 +1,47 @@
-## Welcome to GitHub Pages
+## 跨域资源共享 CORS 详解
 
-You can use the [editor on GitHub](https://github.com/wsj123/-CORS-/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+### ajax代码、发送js原生的ajax请求
 ```
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>跨域资源共享 CORS</title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+<script>
+	var url = "http://api.adv.com/games/ltvstat/list?starttime=20180314&endtime=20180321&cid=394&appid=1000032";
+	var xmlhttp;
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}else{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			res =xmlhttp.responseText;
+			console.log(res);
+		}
+	}
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+</script>
+<div>test</div>
+</body>
+</html>
+```
+### PHP端代码
+```
+header("Access-Control-Allow-Origin:http://local.10001data.com");
+header("Access-Control-Allow-Credentials:true");
+header("Access-Control-Expose-Headers:FooBar");
+header("Content-Type:text/html;charset=utf-8");
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/wsj123/-CORS-/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+ [原文](http://www.ruanyifeng.com/blog/2016/04/cors.html "Title")
+```
